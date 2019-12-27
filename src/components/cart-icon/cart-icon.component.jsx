@@ -7,6 +7,7 @@ import { selectCartItemsCount } from "../../redux/cart/cart.selectors";
 import './cart-icon.styles.scss'
 
 import { ReactComponent as ShoppingIcon} from "../../assets/shopping-bag.svg";
+import {createStructuredSelector} from "reselect";
 
 // Remember to pass the action as props for the component
 const CartIcon = ({toggleCartHidden, itemCount }) => (
@@ -21,11 +22,11 @@ const mapDispatchToProps = dispatch => ({
 
 });
 
-const mapStateToProps = state => ({
+const mapStateToProps = createStructuredSelector({
     // Reduce is kinda like a nested foreach loop to read and sum all the cartItems quantities
     // Again, remember to pass this value as props
     // Here, we are using a selector (Memoized selector provided by reselect), and we have to pass the whole state for it
-    itemCount: selectCartItemsCount(state)
+    itemCount: selectCartItemsCount
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CartIcon);
