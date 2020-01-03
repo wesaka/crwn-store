@@ -30,7 +30,8 @@ const CollectionItem = ({ item, addItem }) => {
     )
 };
 
-// Map dispatch to props is used to turn things into state
+// Map dispatch to props is used to turn
+// things into state
 // Map state to props is used to turn things into props, to read states
 const mapDispatchToProps = dispatch => ({
     addItem: item => dispatch(addItem(item))
