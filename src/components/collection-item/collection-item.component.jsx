@@ -1,32 +1,25 @@
 import React from "react";
 import { connect } from 'react-redux'
 
-import './collection-item.styles.scss'
-
-import CustomButton from "../custom-button/custom-button.component";
 import { addItem } from "../../redux/cart/cart.actions";
+import { CollectionItemContainer, Image, CollectionItemButton, CollectionFooterContainer, NameContainer, PriceContainer } from "./collection-item.styles"
 
 // When using Redux, don't forget to add the action to the props
 const CollectionItem = ({ item, addItem }) => {
     const { name, price, imageUrl } = item;
 
     return (
-        <div className='collection-item'>
-            <div
-                className='image'
-                style={{
-                    backgroundImage: `url(${imageUrl})`
-                }}
-            />
+        <CollectionItemContainer>
+            <Image imageUrl={imageUrl}/>
 
-            <div className= 'collection-footer'>
-                <span className='name'>{name}</span>
-                <span className='price'>{price}</span>
-            </div>
+            <CollectionFooterContainer>
+                <NameContainer>{name}</NameContainer>
+                <PriceContainer>{price}</PriceContainer>
+            </CollectionFooterContainer>
 
             { /* That action that is passed through props, must be "activated", in this case here */ }
-            <CustomButton inverted onClick={() => addItem(item)}>Add to Cart</CustomButton>
-        </div>
+            <CollectionItemButton inverted onClick={() => addItem(item)}>Add to Cart</CollectionItemButton>
+        </CollectionItemContainer>
     )
 };
 
