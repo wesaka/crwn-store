@@ -68,7 +68,13 @@ export const convertCollectionsSnapshotToMap = (collections) => {
         }
     });
 
-    console.log(transformedColletion);
+    // We are already getting the data back from firebase in the correct shape and values
+    // Now we need to convert it to the object map that we are going to use in the reducer
+    // Here we pass the accumulator (empty in a first moment - the {}) and the item at the current iteration
+    return transformedColletion.reduce((accumulator, collection) => {
+        accumulator[collection.title.toLowerCase()] = collection;
+        return accumulator;
+    }, {})
 };
 
 export const auth = firebase.auth();
