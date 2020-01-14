@@ -1,10 +1,18 @@
 import React from "react";
 
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 
-import { clearAllItems, addItem, removeItem } from "../../redux/cart/cart.actions";
+import {clearAllItems, addItem, removeItem} from "../../redux/cart/cart.actions";
 
-import {CheckoutItemContainer, ImageContainer, ArrowContainer, NamePriceContainer, QuantityContainer, RemoveButtonContainer, ValueContainer} from './checkout-item.styles'
+import {
+    CheckoutItemContainer,
+    ImageContainer,
+    ArrowContainer,
+    NamePriceContainer,
+    QuantityContainer,
+    RemoveButtonContainer,
+    ValueContainer
+} from './checkout-item.styles'
 
 const CheckoutItem = ({cartItem, clearAllItems, addItem, removeItem}) => {
     const {name, imageUrl, price, quantity} = cartItem;
@@ -12,7 +20,7 @@ const CheckoutItem = ({cartItem, clearAllItems, addItem, removeItem}) => {
     return (
         <CheckoutItemContainer>
             <ImageContainer>
-                <img src={imageUrl} alt='item' />
+                <img src={imageUrl} alt='item'/>
             </ImageContainer>
             <NamePriceContainer>{name}</NamePriceContainer>
             <QuantityContainer>

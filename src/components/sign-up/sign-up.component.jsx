@@ -3,7 +3,7 @@ import React from "react";
 import CustomButton from "../custom-button/custom-button.component";
 import FormInput from "../form-input/form-input.component";
 
-import { auth, createUserProfileDocument } from "../../firebase/firebase.utils";
+import {auth, createUserProfileDocument} from "../../firebase/firebase.utils";
 import {SigninContainer, TitleContainer} from "../sign-in/sign-in.styles"; // I'll be reusing the styles from signin as they are identical
 
 class SignUp extends React.Component {
@@ -21,7 +21,7 @@ class SignUp extends React.Component {
     handleSubmit = async event => {
         event.preventDefault();
 
-        const { displayName, email, password, confirmPassword } = this.state;
+        const {displayName, email, password, confirmPassword} = this.state;
 
         if (password !== confirmPassword) {
             alert("Passwords don't match!");
@@ -29,7 +29,7 @@ class SignUp extends React.Component {
         }
 
         try {
-            const { user } = await auth.createUserWithEmailAndPassword(email, password);
+            const {user} = await auth.createUserWithEmailAndPassword(email, password);
             createUserProfileDocument(user, displayName);
         } catch (e) {
             console.error(e);
@@ -37,13 +37,13 @@ class SignUp extends React.Component {
     };
 
     handleChange = event => {
-        const { name, value } = event.target;
+        const {name, value} = event.target;
 
         this.setState({[name]: value});
     };
 
     render() {
-        const { displayName, email, password, confirmPassword } = this.state;
+        const {displayName, email, password, confirmPassword} = this.state;
 
         return (
             <SigninContainer>

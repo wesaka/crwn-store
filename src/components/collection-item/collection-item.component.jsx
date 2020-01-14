@@ -1,12 +1,19 @@
 import React from "react";
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 
-import { addItem } from "../../redux/cart/cart.actions";
-import { CollectionItemContainer, Image, CollectionItemButton, CollectionFooterContainer, NameContainer, PriceContainer } from "./collection-item.styles"
+import {addItem} from "../../redux/cart/cart.actions";
+import {
+    CollectionItemContainer,
+    Image,
+    CollectionItemButton,
+    CollectionFooterContainer,
+    NameContainer,
+    PriceContainer
+} from "./collection-item.styles"
 
 // When using Redux, don't forget to add the action to the props
-const CollectionItem = ({ item, addItem }) => {
-    const { name, price, imageUrl } = item;
+const CollectionItem = ({item, addItem}) => {
+    const {name, price, imageUrl} = item;
 
     return (
         <CollectionItemContainer>
@@ -17,7 +24,7 @@ const CollectionItem = ({ item, addItem }) => {
                 <PriceContainer>{price}</PriceContainer>
             </CollectionFooterContainer>
 
-            { /* That action that is passed through props, must be "activated", in this case here */ }
+            { /* That action that is passed through props, must be "activated", in this case here */}
             <CollectionItemButton inverted onClick={() => addItem(item)}>Add to Cart</CollectionItemButton>
         </CollectionItemContainer>
     )
