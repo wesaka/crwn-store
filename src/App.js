@@ -20,7 +20,7 @@ class App extends React.Component {
     unsubscribeFromAuth = null;
 
     componentDidMount() {
-        const {setCurrentUser} = this.props;
+        const { setCurrentUser } = this.props;
 
         // This fires every time that some kind of auth state changes
         this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
@@ -42,6 +42,7 @@ class App extends React.Component {
         });
     }
 
+    // But when the component unmount, we tell the observable  to stop listening to changes from firebase
     componentWillUnmount() {
         this.unsubscribeFromAuth();
     }
