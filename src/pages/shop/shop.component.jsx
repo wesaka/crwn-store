@@ -4,13 +4,11 @@ import { createStructuredSelector } from "reselect";
 import { connect } from 'react-redux';
 
 import { fetchCollectionsStartAsync } from "../../redux/shop/shop.actions";
-import { selectIsCollectionFetching } from "../../redux/shop/shop.selectors";
+import { selectIsCollectionFetching, selectIsCollectionsLoaded } from "../../redux/shop/shop.selectors";
 
 import CollectionsOverview from "../../components/collections-overview/collections-overview.component";
 import CollectionPage from "../collection/collection.component.jsx";
 import WithSpinner from "../../components/with-spinner/with-spinner.component";
-
-import { updateCollections } from "../../redux/shop/shop.actions";
 
 const CollectionsOverviewWithSpinner = WithSpinner(CollectionsOverview);
 const CollectionPageWithSpinner = WithSpinner(CollectionPage);
@@ -32,14 +30,19 @@ class ShopPage extends Component {
 
     // And here to access the isCollectionFetching prop being passed on mapStateToProps
     render() {
-        const { match, isCollectionFetching } = this.props;
+        const { match, isCollectionFetching, isCollectionLoaded } = this.props;
 
         return (
             <div className='shop-page'>
                 <Route exact path={`${match.path}`}
                        render={(props) => <CollectionsOverviewWithSpinner isLoading={isCollectionFetching} {...props}/>}/>
+
+                {/* We need to pass isCollectionLoaded here because if we refresh the page on the collection*/}
+                {/* The app has no reference of the isCollectionFetching, because the collection has been already*/}
+                {/* Loaded and a new render has been called, resetting the value for the spinner to be shown*/}
+                {/* The spinner only renders if the isLoading is true, and we want to show when there's no collection loaded*/}
                 <Route path={`${match.path}/:collectionId`}
-                       render={(props) => <CollectionPageWithSpinner isLoading={isCollectionFetching} {...props}/>}/>
+                       render={(props) => <CollectionPageWithSpinner isLoading={!isCollectionLoaded} {...props}/>}/>
             </div>
         );
     }
@@ -47,7 +50,8 @@ class ShopPage extends Component {
 
 // Here we use a selector to get that single state from redux-thunk
 const mapStateToProps = createStructuredSelector({
-    isCollectionFetching: selectIsCollectionFetching
+    isCollectionFetching: selectIsCollectionFetching,
+    isCollectionLoaded: selectIsCollectionsLoaded
 });
 
 const mapDispatchToProps = dispatch => ({
