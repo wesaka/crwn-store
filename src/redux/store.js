@@ -1,12 +1,12 @@
 // This file is used to set up store in redux and redux-persist
+// This here is the control center for the application state
 import {createStore, applyMiddleware} from "redux";
 import {persistStore} from "redux-persist";
 import logger from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
 
-import { fetchCollectionsStart } from "./shop/shop.sagas";
-
-import rootReducer from './root.reducer'
+import rootReducer from './root.reducer';
+import rootSaga from "./root.sagas";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -18,8 +18,8 @@ if (process.env.NODE_ENV === 'development') {
 
 export const store = createStore(rootReducer, applyMiddleware(...middlewares));
 
-sagaMiddleware.run(fetchCollectionsStart);
+sagaMiddleware.run(rootSaga);
 
 export const persistor = persistStore(store);
 
-export default {store, persistor};
+export default { store, persistor };
