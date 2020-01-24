@@ -1,4 +1,4 @@
-import { takeLatest, call, put } from 'redux-saga/effects';
+import { takeLatest, call, put, all } from 'redux-saga/effects';
 
 import ShopActionTypes from "./shop.types";
 import {convertCollectionsSnapshotToMap, firestore} from "../../firebase/firebase.utils";
@@ -27,4 +27,10 @@ export function* fetchCollectionAsync() {
 export function* fetchCollectionsStart() {
     // Basically, this thing here listens to the specific redux actions and fires new functions accordingly
     yield takeLatest(ShopActionTypes.FETCH_COLLECTION_START, fetchCollectionAsync);
+}
+
+export function* shopSagas() {
+    yield all([
+        call(fetchCollectionsStart)
+    ])
 }

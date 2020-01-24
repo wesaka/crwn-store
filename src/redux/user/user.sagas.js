@@ -2,9 +2,22 @@ import { takeLatest, put, all, call } from 'redux-saga/effects';
 
 import UserActionTypes from "./user.types";
 
-import {signInSuccess, signInFailure, signOutFailure, signOutSuccess} from "./user.actions";
+import {
+    signInSuccess,
+    signInFailure,
+    signOutFailure,
+    signOutSuccess,
+    signUpFailure,
+    signUpSuccess,
+    emailSignInStart
+} from "./user.actions";
 
-import {googleProvider, auth, createUserProfileDocument, getCurrentUser} from "../../firebase/firebase.utils";
+import {
+    googleProvider,
+    auth,
+    createUserProfileDocument,
+    getCurrentUser
+} from "../../firebase/firebase.utils";
 
 
 // SIGN IN
@@ -48,7 +61,10 @@ export function* signInWithEmail({payload: { email, password }}) {
 }
 
 export function* onEmailSignInStart() {
-    yield takeLatest(UserActionTypes.EMAIL_SIGN_IN_START, signInWithEmail)
+    yield takeLatest(UserActionTypes.EMAIL_SIGN_IN_START, signInWithEmail);
+
+    // Also listen for success in signUp - AAAAAAAAH MULEQUE, TE PEGUEI
+    yield takeLatest(UserActionTypes.SIGN_UP_SUCCESS, signInWithEmail);
 }
 
 
@@ -88,11 +104,34 @@ export function* onSignOutStart() {
     yield takeLatest(UserActionTypes.SIGN_OUT_START, signOut);
 }
 
+
+// SIGN UP
+
+export function* signUp({payload: {displayName, email, password, confirmPassword}}) {
+    if (password !== confirmPassword) {
+        alert("Passwords don't match (REDUX)!");
+        return;
+    }
+
+    try {
+        const { user } = yield auth.createUserWithEmailAndPassword(email, password);
+        yield createUserProfileDocument(user, displayName);
+        yield put(signUpSuccess({email, password}));
+    } catch (e) {
+        yield put(signUpFailure(e));
+    }
+}
+
+export function* onSignUp() {
+    yield takeLatest(UserActionTypes.SIGN_UP_START, signUp)
+}
+
 export function* userSagas() {
     yield all([
         call(onGoogleSignInStart),
         call(onEmailSignInStart),
         call(onCheckUserSession),
-        call(onSignOutStart)
+        call(onSignOutStart),
+        call(onSignUp)
     ]);
 }
