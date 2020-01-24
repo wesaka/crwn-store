@@ -9,7 +9,10 @@ import SignPage from "./pages/sign/sign.component";
 import CheckoutPage from "./pages/checkout/checkout.component";
 
 import {connect} from 'react-redux'
-import {selectCurrentUser} from "./redux/user/user.selectors";
+
+import { selectCurrentUser } from "./redux/user/user.selectors";
+import { checkUserSession } from "./redux/user/user.actions";
+
 import {createStructuredSelector} from "reselect";
 
 
@@ -17,25 +20,8 @@ class App extends React.Component {
     unsubscribeFromAuth = null;
 
     componentDidMount() {
-
-        // This fires every time that some kind of auth state changes
-        // this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
-        //     if (userAuth) {
-        //         const userRef = await createUserProfileDocument(userAuth);
-        //
-        //         userRef.onSnapshot(snapshot => {
-        //             setCurrentUser({
-        //                 id: snapshot.id,
-        //                 ...snapshot.data()
-        //             });
-        //         });
-        //     }
-        //     // This sets the currentUser state as null
-        //     setCurrentUser(userAuth);
-
-            // This is a function made for putting the data used on the shop to firebase.
-            // addCollectionAndDocuments('collections', collectionsArray.map(({title, items}) => ({ title, items})));
-        // });
+        const { checkUserSession } = this.props;
+        checkUserSession();
     }
 
     // But when the component unmount, we tell the observable  to stop listening to changes from firebase
@@ -64,4 +50,8 @@ const mapStateToProps = createStructuredSelector({
     currentUser: selectCurrentUser
 });
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = dispatch => ({
+    checkUserSession: () => dispatch(checkUserSession())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
