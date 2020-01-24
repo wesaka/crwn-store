@@ -109,20 +109,20 @@ export function* onSignOutStart() {
 
 export function* signUp({payload: {displayName, email, password, confirmPassword}}) {
     if (password !== confirmPassword) {
-        alert("Passwords don't match (REDUX)!");
+        alert("Passwords don't match!");
         return;
     }
 
     try {
         const { user } = yield auth.createUserWithEmailAndPassword(email, password);
         yield createUserProfileDocument(user, displayName);
-        yield put(signUpSuccess({email, password}));
+        yield put(signUpSuccess({email, password, displayName}));
     } catch (e) {
         yield put(signUpFailure(e));
     }
 }
 
-export function* onSignUp() {
+export function* onSignUpStart() {
     yield takeLatest(UserActionTypes.SIGN_UP_START, signUp)
 }
 
@@ -132,6 +132,6 @@ export function* userSagas() {
         call(onEmailSignInStart),
         call(onCheckUserSession),
         call(onSignOutStart),
-        call(onSignUp)
+        call(onSignUpStart)
     ]);
 }

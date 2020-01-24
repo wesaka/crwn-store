@@ -4,9 +4,8 @@ import { connect } from 'react-redux';
 import CustomButton from "../custom-button/custom-button.component";
 import FormInput from "../form-input/form-input.component";
 
-import {auth, createUserProfileDocument} from "../../firebase/firebase.utils";
 import {SigninContainer, TitleContainer} from "../sign-in/sign-in.styles";
-import {emailSignInStart, signUpStart} from "../../redux/user/user.actions"; // I'll be reusing the styles from signin as they are identical
+import { signUpStart } from "../../redux/user/user.actions"; // I'll be reusing the styles from signin as they are identical
 
 class SignUp extends React.Component {
     constructor(props) {
@@ -27,18 +26,6 @@ class SignUp extends React.Component {
         const { displayName, email, password, confirmPassword } = this.state;
 
         signUpStart(displayName, email, password, confirmPassword);
-
-        // if (password !== confirmPassword) {
-        //     alert("Passwords don't match!");
-        //     return;
-        // }
-        //
-        // try {
-        //     const {user} = await auth.createUserWithEmailAndPassword(email, password);
-        //     createUserProfileDocument(user, displayName);
-        // } catch (e) {
-        //     console.error(e);
-        // }
     };
 
     handleChange = event => {
