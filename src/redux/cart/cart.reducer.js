@@ -38,6 +38,12 @@ const cartReducer = (state = INITIAL_STATE, action) => {
                 // that have a different id in a completely new array of cartItems
             };
 
+        case CartActionTypes.CLEAR_CART:
+            return {
+                ...state,
+                cartItems: []
+            };
+
         default:
             return state;
     }

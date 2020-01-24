@@ -25,9 +25,11 @@ const Header = ({currentUser, hidden, signOutStart}) => (
             </OptionLink>
             {
                 currentUser ?
-                    (<OptionLink as='div' onClick={signOutStart}>SIGN OUT</OptionLink>)
+                    // This ~to='/'~ doesn't do absolutely nothing, as I'm using ~as='div'~
+                    // But it wouldn't stop bothering me about it being empty
+                    (<OptionLink to='/' as='div' onClick={signOutStart}>SIGN OUT</OptionLink>)
                     :
-                    (<OptionLink className='option' to='/sign'>SIGN IN</OptionLink>)
+                    (<OptionLink to='/sign'>SIGN IN</OptionLink>)
             }
             <CartIcon/>
 

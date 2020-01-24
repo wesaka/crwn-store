@@ -19,6 +19,10 @@ export const clearAllItems = item => ({
     payload: item
 });
 
+export const clearCart = () => ({
+    type: CartActionTypes.CLEAR_CART
+});
+
 
 // Actions always have:
 // Type, that is what the user is trying to do
