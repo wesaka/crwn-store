@@ -17,6 +17,22 @@ import {createStructuredSelector} from "reselect";
 
 
 const App = ({ checkUserSession, currentUser }) => {
+    // Also, useEffect can mimic componentWillUnmount by calling a cleanup function
+    // Such thing would be achieved like this (example of subscription)
+    // useEffect(() => {
+    //     console.log("I am subscribing");
+    //     const unsubscribeFromCollections = firestore
+    //         .collection('collections')
+    //         .onSnapshot(snapshot => console.log(snapshot));
+    //
+    // This following is the cleanup function
+    //     return () => {
+    //         console.log('I am unsubscribing');
+    //         unsubscribeFromCollections();
+    //     };
+    //     }, []
+    // );
+
     useEffect(() => {
         checkUserSession()
     }, [checkUserSession]);
@@ -29,7 +45,7 @@ const App = ({ checkUserSession, currentUser }) => {
                 <Route path='/shop' component={ShopPage}/>
                 <Route exact path='/checkout' component={CheckoutPage}/>
                 <Route exact path='/sign'
-                       render={() => this.props.currentUser ? (<Redirect to='/'/>) : (<SignPage/>)}/>
+                       render={() => currentUser ? (<Redirect to='/'/>) : (<SignPage/>)}/>
             </Switch>
         </div>
     );
