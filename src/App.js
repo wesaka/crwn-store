@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import {Switch, Route, Redirect} from 'react-router-dom'
 
@@ -16,35 +16,24 @@ import { checkUserSession } from "./redux/user/user.actions";
 import {createStructuredSelector} from "reselect";
 
 
-class App extends React.Component {
-    unsubscribeFromAuth = null;
+const App = ({ checkUserSession, currentUser }) => {
+    useEffect(() => {
+        checkUserSession()
+    }, [checkUserSession]);
 
-    componentDidMount() {
-        const { checkUserSession } = this.props;
-        checkUserSession();
-    }
-
-    // But when the component unmount, we tell the observable  to stop listening to changes from firebase
-    componentWillUnmount() {
-        this.unsubscribeFromAuth();
-    }
-
-    render() {
-        return (
-            <div>
-                <Header/>
-                <Switch>
-                    <Route exact path='/' component={HomePage}/>
-                    <Route path='/shop' component={ShopPage}/>
-                    <Route exact path='/checkout' component={CheckoutPage}/>
-                    <Route exact path='/sign'
-                           render={() => this.props.currentUser ? (<Redirect to='/'/>) : (<SignPage/>)}/>
-                </Switch>
-            </div>
-        );
-    }
-
-}
+    return (
+        <div>
+            <Header/>
+            <Switch>
+                <Route exact path='/' component={HomePage}/>
+                <Route path='/shop' component={ShopPage}/>
+                <Route exact path='/checkout' component={CheckoutPage}/>
+                <Route exact path='/sign'
+                       render={() => this.props.currentUser ? (<Redirect to='/'/>) : (<SignPage/>)}/>
+            </Switch>
+        </div>
+    );
+};
 
 const mapStateToProps = createStructuredSelector({
     currentUser: selectCurrentUser
