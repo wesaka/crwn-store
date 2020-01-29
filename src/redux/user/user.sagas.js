@@ -8,8 +8,7 @@ import {
     signOutFailure,
     signOutSuccess,
     signUpFailure,
-    signUpSuccess,
-    emailSignInStart
+    signUpSuccess
 } from "./user.actions";
 
 import {
